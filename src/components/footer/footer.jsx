@@ -109,9 +109,9 @@ class Footer extends Component {
           <Typography className={ classes.builtHeading } variant={ 'h6'}>Curve Swaps</Typography>
           <img
             alt=""
-            src={ require('../../assets/YFI-logo.png') }
+            src={ require('../../assets/logo.svg') }
             height={ '120px' }
-            width={ '120px' }
+            width={ '100px' }
           />
         </div>
         <div className={ classes.products }>

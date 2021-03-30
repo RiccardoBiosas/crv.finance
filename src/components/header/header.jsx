@@ -17,6 +17,8 @@ import Store from "../../stores";
 const emitter = Store.emitter
 const store = Store.store
 
+const opiumColor = '#387CD8'
+
 const styles = theme => ({
   root: {
     verticalAlign: 'top',
@@ -56,7 +58,7 @@ const styles = theme => ({
     cursor: 'pointer',
     '&:hover': {
       paddingBottom: '9px',
-      borderBottom: "3px solid "+colors.borderBlue,
+      borderBottom: "3px solid "+ opiumColor,
     },
   },
   title: {
@@ -86,7 +88,7 @@ const styles = theme => ({
     alignItems: 'center',
     cursor: 'pointer',
     '&:hover': {
-      border: "2px solid "+colors.borderBlue,
+      border: "2px solid "+ opiumColor,
       background: 'rgba(47, 128, 237, 0.1)'
     },
     [theme.breakpoints.down('sm')]: {
@@ -168,8 +170,9 @@ class Header extends Component {
           <div className={ classes.icon }>
             <img
               alt=""
-              src={ require('../../assets/YFI-logo.png') }
+              src={ require('../../assets/logo.svg') }
               height={ '40px' }
+              width={ '200px' }
               onClick={ () => { this.nav('') } }
             />
             <Typography variant={ 'h3'} className={ classes.name } onClick={ () => { this.nav('') } }>Curve Swaps</Typography>
@@ -177,7 +180,6 @@ class Header extends Component {
           <div className={ classes.links }>
             { this.renderLink('swap') }
             { this.renderLink('liquidity') }
-            { this.renderLink('add') }
           </div>
           <div className={ classes.account }>
             { address &&
