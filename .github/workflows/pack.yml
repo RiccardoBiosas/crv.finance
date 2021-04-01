@@ -3,7 +3,7 @@ name: curve-fork CI/CD
 on:
   push:
     branches:
-      - feature/opium
+      - master
     tags:
       - v*
 
