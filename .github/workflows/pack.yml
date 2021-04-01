@@ -1,0 +1,40 @@
+name: curve-fork CI/CD
+
+on:
+  push:
+    branches:
+      - feature/opium
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Build app to package
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Node Setup
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12.x'
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Build Image
+      run: docker build . --file Dockerfile --tag image
+    - name: Push image
+      run: |
+        # Extract Image name from "name" of package.json
+        IMAGE_NAME=$(jq -r '.name' package.json)
+        echo IMAGE_NAME=$IMAGE_NAME
+        IMAGE_ID=docker.pkg.github.com/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/$IMAGE_NAME
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        # Strip "v" prefix from tag name
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        # Use Docker `latest` tag convention
+        [ "$VERSION" == "master" ] && VERSION=latest
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+        docker tag image $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
