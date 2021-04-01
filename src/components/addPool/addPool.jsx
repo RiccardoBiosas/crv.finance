@@ -26,6 +26,13 @@ const emitter = Store.emitter
 const dispatcher = Store.dispatcher
 const store = Store.store
 
+/**
+ * TODO:
+ * remove
+ */
+
+const opiumColor = '#387CD8'
+
 const styles = theme => ({
   root: {
     flex: 1,
@@ -44,7 +51,7 @@ const styles = theme => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     margin: '40px 0px',
-    border: '1px solid '+colors.borderBlue,
+    border: '1px solid' + opiumColor,
     minWidth: '500px',
     background: colors.white
   },
@@ -174,7 +181,7 @@ const styles = theme => ({
   titleBalance: {
     padding: '20px 10px',
     borderRadius: '50px',
-    border: '1px solid '+colors.borderBlue,
+    border: '1px solid' + opiumColor,
     background: colors.white,
     display: 'flex',
     flexDirection: 'column',

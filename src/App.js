@@ -108,9 +108,6 @@ class App extends Component {
                 <Route path="/swap">
                   <Swap />
                 </Route>
-                <Route path="/add">
-                  <AddPool />
-                </Route>
                 <Route path="/">
                   <Swap />
                 </Route>
