@@ -1,4 +1,4 @@
-FROM node:14 as build
+FROM node:14 as build-stage
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/
@@ -6,10 +6,10 @@ RUN yarn --silent
 COPY . /app
 RUN yarn build
 
-FROM nginx:1.17.8-alpine
+FROM nginx:1.17.8-alpine as runtime-image
 COPY nginx.conf /etc/nginx/conf.d/configfile.template
 
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build-stage /app/build /usr/share/nginx/html
 
 ENV PORT 80
 ENV HOST 0.0.0.0
