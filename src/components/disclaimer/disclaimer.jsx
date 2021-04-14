@@ -18,11 +18,11 @@ const styles = theme => ({
     }
   },
   disclaimer: {
+    color: colors.white,
     padding: '12px',
     border: '1px solid rgb(174, 174, 174)',
     borderRadius: '0.75rem',
     lineHeight: '1.2',
-    background: colors.white,
   }
 });
 

@@ -20,7 +20,7 @@ function CloseIcon(props) {
   return (
     <SvgIcon style={{fontSize: '22px'}}>
       <path
-        fill={ color }
+        fill={colors.white}
         d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
       />
     </SvgIcon>
@@ -171,7 +171,7 @@ class MySnackbar extends Component {
             {icon}
             <div style={{ display: 'inline-block', verticalAlign: 'middle', maxWidth: '400px' }}>
               <Typography variant='body1' style={{ fontSize: '12px', color: color }}>{ messageType }</Typography>
-              <Typography variant='body1' style={{ fontSize: '10px', color: colors.lightBlack }}>{ message }</Typography>
+              <Typography variant='body1' style={{ fontSize: '10px', color: colors.white }}>{ message }</Typography>
             </div>
           </div>
         }

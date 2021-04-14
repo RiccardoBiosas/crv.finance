@@ -14,7 +14,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    background: colors.blue,
+    background: colors.bgGradient,
     minWidth: '100vw',
     padding: '36px 24px'
   },
@@ -28,7 +28,12 @@ const styles = theme => ({
   },
   actionButton: {
     color: colors.white,
-    borderColor: colors.white
+    borderColor: colors.white,
+    '&:hover': {
+      backgroundColor: colors.white,
+      borderColor: 'transparent',
+      color: colors.black
+    },
   },
   notConnectedRoot: {
     flex: 1,
@@ -68,12 +73,12 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   disclaimer: {
+    color: colors.white,
     padding: '12px',
     border: '1px solid '+colors.white,
     borderRadius: '0.75rem',
     marginBottom: '24px',
     fontWeight: 1,
-    color: colors.white
   }
 });
 

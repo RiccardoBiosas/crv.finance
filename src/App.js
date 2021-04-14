@@ -20,6 +20,8 @@ import AddPool from './components/addPool';
 
 import { injected } from "./stores/connectors";
 
+import { colors } from './theme'
+
 import {
   CONNECTION_CONNECTED,
   CONNECTION_DISCONNECTED,
@@ -97,7 +99,7 @@ class App extends Component {
               flexDirection: 'column',
               minHeight: '100vh',
               alignItems: 'center',
-              background: "#f9fafb"
+              background: colors.bgGradient
             }}>
               <Header />
               <Disclaimer />
@@ -112,6 +114,7 @@ class App extends Component {
                   <Swap />
                 </Route>
               </Switch>
+              <Footer />
             </div>
           }
           <SnackbarController />

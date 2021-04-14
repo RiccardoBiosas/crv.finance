@@ -50,9 +50,9 @@ const styles = theme => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     margin: '40px 0px',
-    border: '1px solid '+colors.borderBlue,
+    border: '1px solid '+colors.white,
     minWidth: '500px',
-    background: colors.white
+    background: colors.bg
   },
   inputCardHeading: {
     width: '100%',
@@ -63,17 +63,18 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    marginBottom: '24px'
+    marginBottom: '24px',
   },
   balances: {
+    color: colors.white,
     textAlign: 'right',
     paddingRight: '20px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   assetSelectMenu: {
     padding: '15px 15px 15px 20px',
     minWidth: '300px',
-    display: 'flex'
+    display: 'flex',
   },
   assetSelectIcon: {
     display: 'inline-block',
@@ -100,23 +101,47 @@ const styles = theme => ({
   assetContainer: {
     minWidth: '120px'
   },
+  actionInput: {
+    "& .MuiOutlinedInput-root.Mui-disabled": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: 'rgba(255,255,255,.5)'
+      },
+      "&:hover": {
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: 'rgba(255,255,255,.5)'
+        },
+      }
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: colors.white
+    }
+  },
   actionButton: {
     '&:hover': {
-      backgroundColor: "#2F80ED",
+      backgroundColor: "transparent",
+      border: '1px solid ' + colors.white,
+      "& .MuiTypography-h4": {
+        color: colors.white
+      }
+    },
+    "&:disabled,&[disabled]": {
+      background: 'transparent',
+      borderColor: 'rgba(255,255,255,.5)',
+      "& .MuiTypography-h4": {
+        color: 'rgba(255,255,255,.5)'
+      }
     },
     marginTop: '24px',
-    padding: '12px',
-    backgroundColor: "#2F80ED",
-    borderRadius: '1rem',
-    border: '1px solid #E1E1E1',
+    padding: '7px',
+    backgroundColor: colors.white,
+    borderRadius: '100px',
+    border: '1px solid ' + colors.white,
     fontWeight: 500,
-    [theme.breakpoints.up('md')]: {
-      padding: '15px',
-    }
   },
   buttonText: {
     fontWeight: '700',
-    color: 'white',
+    color: colors.black,
+    transition: 'color .25s ease'
   },
   priceContainer: {
     display: 'flex',
@@ -165,6 +190,8 @@ const styles = theme => ({
     display: 'flex'
   },
   label: {
+    color: colors.white,
+    marginBottom: '16px',
     flex: 1,
     paddingLeft: '12px'
   },
@@ -218,7 +245,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
   },
   swapIconContainer: {
     display: 'flex',
@@ -228,6 +255,9 @@ const styles = theme => ({
   },
   swapIcon: {
     cursor: 'pointer'
+  },
+  icon: {
+    fill: colors.white
   }
 });
 
@@ -375,7 +405,7 @@ class Swap extends Component {
             <Fragment>
               { this.renderAssetInput('from') }
               <div className={ classes.swapIconContainer }>
-                <SwapVertIcon className={ classes.swapIcon } onClick={ this.swapAssets }/>
+                <SwapVertIcon className={ classes.swapIcon } style={{fill: colors.white}} onClick={ this.swapAssets }/>
               </div>
               { this.renderAssetInput('to') }
               <RateInfo
@@ -424,6 +454,7 @@ class Swap extends Component {
             onChange={ this.onPoolSelectChange }
             SelectProps={{
               native: false,
+              classes: { icon: classes.icon },
               renderValue: (option) => {
                 return (
                   <div className={ classes.assetSelectIconName }>
@@ -530,6 +561,7 @@ class Swap extends Component {
         onChange={ this.onAssetSelectChange }
         SelectProps={{
           native: false,
+          classes: { icon: classes.icon },
         }}
         fullWidth
         disabled={ loading }
