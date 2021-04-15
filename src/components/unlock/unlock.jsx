@@ -262,7 +262,7 @@ function MyComponent(props) {
         } else if (name === 'Squarelink') {
           url = require('../../assets/connectors/squarelink.png')
         } else if (name === 'Trezor') {
-          url = require('../../assets/connectors/trezor.png')
+          url = require('../../assets/connectors/trezor.svg')
         } else if (name === 'Torus') {
           url = require('../../assets/connectors/torus.jpg')
         } else if (name === 'Authereum') {

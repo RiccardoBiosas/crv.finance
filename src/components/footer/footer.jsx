@@ -18,8 +18,9 @@ const styles = theme => ({
   },
   builtHeading: {
     marginBottom: '12px',
+    marginRight: '1rem',
     color: 'white',
-    textDecoration: 'none',
+    // textDecoration: 'none',
     paddingBottom: '10px',
     "&:hover": {
       textDecoration: 'underline'
@@ -41,7 +42,8 @@ class Footer extends Component {
     return (
       <div className={classes.footer}>
         <div className={ classes.builtWith }>
-          <a href="#" className={ classes.builtHeading }>Credits</a>
+          <a href="https://opium.finance" target='__blank' className={ classes.builtHeading }>Opium.Finance</a>
+          <a href="https://github.com/andrecronje/crv.finance" target='__blank' className={ classes.builtHeading }>Credits</a>
         </div>
       </div>
     )
