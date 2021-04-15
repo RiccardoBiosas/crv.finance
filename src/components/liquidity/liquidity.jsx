@@ -53,13 +53,13 @@ const styles = theme => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     margin: '40px 0px',
-    border: '1px solid '+colors.borderBlue,
-    width: '500px',
-    background: colors.white
+    border: '1px solid '+colors.white,
+    minWidth: '500px',
+    background: colors.bg
   },
   inputCardHeading: {
     width: '100%',
-    color: colors.darkGray,
+    color: colors.white,
     paddingLeft: '12px'
   },
   valContainer: {
@@ -104,23 +104,50 @@ const styles = theme => ({
   assetContainer: {
     minWidth: '120px'
   },
+  actionInput: {
+    "& .MuiOutlinedInput-root.Mui-disabled": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: 'rgba(255,255,255,.5)'
+      },
+      "&:hover": {
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: 'rgba(255,255,255,.5)'
+        },
+      }
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: colors.white
+    },
+    "& #pool-helper-text": {
+      color: 'rgba(255,255,255,.5)'
+    }
+  },
   actionButton: {
     '&:hover': {
-      backgroundColor: "#2F80ED",
+      backgroundColor: "transparent",
+      border: '1px solid ' + colors.white,
+      "& .MuiTypography-h4": {
+        color: colors.white
+      }
+    },
+    "&:disabled,&[disabled]": {
+      background: 'transparent',
+      borderColor: 'rgba(255,255,255,.5)',
+      "& .MuiTypography-h4": {
+        color: 'rgba(255,255,255,.5)'
+      }
     },
     marginTop: '24px',
-    padding: '12px',
-    backgroundColor: "#2F80ED",
-    borderRadius: '1rem',
-    border: '1px solid #E1E1E1',
+    padding: '7px',
+    backgroundColor: colors.white,
+    borderRadius: '100px',
+    border: '1px solid ' + colors.white,
     fontWeight: 500,
-    [theme.breakpoints.up('md')]: {
-      padding: '15px',
-    }
   },
   buttonText: {
     fontWeight: '700',
-    color: 'white',
+    color: colors.black,
+    transition: 'color .25s ease'
   },
   priceContainer: {
     display: 'flex',
@@ -153,7 +180,8 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '24px',
-    color: colors.darkGray
+    color: 'rgba(255,255,255,.5)',
+    transition: 'color .25s ease'
   },
   toggleHeadingActive: {
     flex: 1,
@@ -162,7 +190,8 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '24px',
-    color: colors.text
+    color: colors.white,
+    transition: 'color .25s ease'
   },
   flexy: {
     width: '100%',
@@ -170,12 +199,17 @@ const styles = theme => ({
   },
   label: {
     flex: 1,
+    color: colors.white,
+    marginBottom: '16px',
     paddingLeft: '12px'
   },
   assetSelectRoot: {
   },
   space: {
     height: '24px'
+  },
+  value: {
+    color: colors.white
   },
   version1: {
     border: '1px solid '+colors.borderBlue,

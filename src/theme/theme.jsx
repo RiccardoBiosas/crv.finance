@@ -17,6 +17,8 @@ const WorkSans = {
 };
 
 export const colors = {
+  bgGradient: 'radial-gradient(72.74% 182.65% at 85.89% 66.02%, #111132 2.27%, #0A0A1E 98.05%)',
+  bg: '#0A0A1E',
   white: "#fff",
   black: '#000',
   darkBlue: "#2c3b57",
@@ -37,7 +39,7 @@ export const colors = {
   lightBlue: "#2F80ED",
   topaz: "#0b8f92",
   darkGray: "rgba(43,57,84,.5)",
-  borderBlue: 'rgba(25, 101, 233, 0.5)'
+  borderBlue: '#197CD8'
 };
 
 const breakpoints = createBreakpoints({
@@ -140,7 +142,7 @@ const iswapTheme =  {
       },
       outlined: {
         padding: '10px 24px',
-        borderWidth: '2px !important'
+        borderWidth: '1px',
       },
       text: {
         padding: '10px 24px'
@@ -172,18 +174,19 @@ const iswapTheme =  {
     MuiOutlinedInput: {
       input: {
         "&::placeholder": {
-          color: colors.text
+          color: 'rgba(255,255,255,.5)'
         },
-        color: colors.text,
+        color: colors.white,
         padding: '14px',
-        borderRadius: '50px'
+        borderRadius: '1rem',
+        fontWeight: '500'
       },
       root: {
-        // border: "none !important",
         borderRadius: '50px'
       },
       notchedOutline: {
-        // border: "none !important"
+        border: '1px solid ' + colors.white,
+        borderColor: 'rgba(255,255,255,.5)',
       }
     },
     MuiSnackbar : {
@@ -201,7 +204,7 @@ const iswapTheme =  {
     },
     MuiSnackbarContent: {
       root: {
-        backgroundColor: colors.white,
+        backgroundColor: '#0A0A1E',
         padding: '0px',
         minWidth: 'auto',
         '@media (min-width: 960px)': {
@@ -209,7 +212,7 @@ const iswapTheme =  {
         }
       },
       message: {
-        padding: '0px'
+        padding: '0px',
       },
       action: {
         marginRight: '0px'
