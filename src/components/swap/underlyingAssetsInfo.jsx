@@ -6,9 +6,10 @@ import { colors } from '../../theme'
 const styles = () => ({
   info: {
     paddingLeft: '12px',
+    color: colors.gray
   },
   link: {
-    color: colors.text,
+    color: colors.gray,
   },
 });
 

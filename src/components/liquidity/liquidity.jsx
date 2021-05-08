@@ -456,7 +456,7 @@ class Liquidity extends Component {
             disabled={ loading }
             className={ classes.actionInput }
             id={ 'poolAmount' }
-            value={ poolAmount }
+            value={ poolAmount || 0 }
             error={ poolAmountError }
             onChange={ this.onChange }
             placeholder="0.00"
@@ -504,10 +504,12 @@ class Liquidity extends Component {
   renderPoolSelectAssetOptions = (option) => {
     const { classes } = this.props
 
+    const name = option.name.toLowerCase().includes(':') ? option.name.split(':')[1] : option.name
+
     return (
       <MenuItem key={option.id} value={option.id} className={ classes.poolSelectOption }>
         <div>
-          <Typography variant='h4'>{ option.name }</Typography>
+          <Typography variant='h4'>{ name }</Typography>
           { option.balance > 0 ? <Typography variant='h5' className={ classes.gray }>Bal: { option.balance ? parseFloat(option.balance).toFixed(4) : '' }</Typography> : '' }
         </div>
         <Typography variant='h5' className={`${ option.version === 1 ? classes.version1 : classes.version2 }`}>version { option.version }</Typography>
@@ -732,7 +734,7 @@ class Liquidity extends Component {
             disabled={ loading || DorW === 'withdraw' }
             className={ classes.actionInput }
             id={ type+"Amount" }
-            value={ amount }
+            value={ amount || 0 }
             error={ amountError }
             onChange={ this.onChange }
             placeholder="0.00"
