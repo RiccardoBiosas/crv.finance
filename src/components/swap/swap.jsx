@@ -1,3 +1,4 @@
+import "./style.css"
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -50,9 +51,9 @@ const styles = theme => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     margin: '40px 0px',
-    border: '1px solid '+colors.borderBlue,
+    border: '1px solid '+colors.white,
     minWidth: '500px',
-    background: colors.white
+    background: colors.bg
   },
   inputCardHeading: {
     width: '100%',
@@ -63,17 +64,18 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    marginBottom: '24px'
+    marginBottom: '24px',
   },
   balances: {
+    color: colors.white,
     textAlign: 'right',
     paddingRight: '20px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   assetSelectMenu: {
     padding: '15px 15px 15px 20px',
     minWidth: '300px',
-    display: 'flex'
+    display: 'flex',
   },
   assetSelectIcon: {
     display: 'inline-block',
@@ -89,7 +91,7 @@ const styles = theme => ({
     paddingLeft: '10px',
     display: 'inline-block',
     verticalAlign: 'middle',
-    flex: 1
+    flex: 1,
   },
   assetSelectBalance: {
     paddingLeft: '24px'
@@ -100,23 +102,47 @@ const styles = theme => ({
   assetContainer: {
     minWidth: '120px'
   },
+  actionInput: {
+    "& .MuiOutlinedInput-root.Mui-disabled": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: 'rgba(255,255,255,.5)'
+      },
+      "&:hover": {
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: 'rgba(255,255,255,.5)'
+        },
+      }
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: colors.white
+    }
+  },
   actionButton: {
     '&:hover': {
-      backgroundColor: "#2F80ED",
+      backgroundColor: "transparent",
+      border: '1px solid ' + colors.white,
+      "& .MuiTypography-h4": {
+        color: colors.white
+      }
+    },
+    "&:disabled,&[disabled]": {
+      background: 'transparent',
+      borderColor: 'rgba(255,255,255,.5)',
+      "& .MuiTypography-h4": {
+        color: 'rgba(255,255,255,.5)'
+      }
     },
     marginTop: '24px',
-    padding: '12px',
-    backgroundColor: "#2F80ED",
-    borderRadius: '1rem',
-    border: '1px solid #E1E1E1',
+    padding: '7px',
+    backgroundColor: colors.white,
+    borderRadius: '100px',
+    border: '1px solid ' + colors.white,
     fontWeight: 500,
-    [theme.breakpoints.up('md')]: {
-      padding: '15px',
-    }
   },
   buttonText: {
     fontWeight: '700',
-    color: 'white',
+    color: colors.black,
+    transition: 'color .25s ease'
   },
   priceContainer: {
     display: 'flex',
@@ -165,6 +191,8 @@ const styles = theme => ({
     display: 'flex'
   },
   label: {
+    color: colors.white,
+    marginBottom: '16px',
     flex: 1,
     paddingLeft: '12px'
   },
@@ -218,7 +246,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
   },
   swapIconContainer: {
     display: 'flex',
@@ -228,6 +256,9 @@ const styles = theme => ({
   },
   swapIcon: {
     cursor: 'pointer'
+  },
+  icon: {
+    fill: colors.white
   }
 });
 
@@ -375,12 +406,12 @@ class Swap extends Component {
             <Fragment>
               { this.renderAssetInput('from') }
               <div className={ classes.swapIconContainer }>
-                <SwapVertIcon className={ classes.swapIcon } onClick={ this.swapAssets }/>
+                <SwapVertIcon className={ classes.swapIcon } style={{fill: colors.white}} onClick={ this.swapAssets }/>
               </div>
               { this.renderAssetInput('to') }
               <RateInfo
-                fromAsset={fromAsset}
-                toAsset={toAsset}
+                fromAsset={this.state.selectedPool ? fromAsset.includes('OPIUM') ? this.state.selectedPool.name.split(':')[1] : fromAsset : ''}
+                toAsset={this.state.selectedPool ? toAsset.includes('OPIUM') ? this.state.selectedPool.name.split(':')[1] : toAsset : ''}
                 receivePerSend={receivePerSend}
                 sendPerReceive={sendPerReceive}
               />
@@ -406,6 +437,8 @@ class Swap extends Component {
     const { loading, pools, pool, selectedPool } = this.state
     const { classes } = this.props
 
+    const name = selectedPool ? selectedPool.name.toLowerCase().includes(':') ? selectedPool.name.split(':')[1] : selectedPool.name : ''
+
     return (
       <div className={ classes.valContainer }>
         <div className={ classes.flexy }>
@@ -420,14 +453,15 @@ class Swap extends Component {
             id={ 'pool' }
             name={ 'pool' }
             select
-            value={ pool }
+            value={ name }
             onChange={ this.onPoolSelectChange }
             SelectProps={{
               native: false,
-              renderValue: (option) => {
+              classes: { icon: classes.icon },
+              renderValue: (name) => {
                 return (
                   <div className={ classes.assetSelectIconName }>
-                    <Typography variant='h4'>{ option }</Typography>
+                    <Typography variant='h4'>{ name }</Typography>
                   </div>
                 )
               }
@@ -447,12 +481,13 @@ class Swap extends Component {
   }
 
   renderPoolOption = (option) => {
-    const { classes } = this.props
+    const { classes } = this.props  
+    const name = option.name.toLowerCase().includes(':') ? option.name.split(':')[1] : option.name
 
     return (
       <MenuItem key={option.id} value={option.id} className={ classes.assetSelectMenu }>
         <div className={ classes.poolSelectOption }>
-          <Typography variant='h4'>{ option.name }</Typography>
+          <Typography variant='h4'>{ name }</Typography>
           <Typography variant='h5' className={`${ option.version === 1 ? classes.version1 : classes.version2 }`}>version { option.version }</Typography>
         </div>
       </MenuItem>
@@ -493,7 +528,7 @@ class Swap extends Component {
             <Typography variant='h4'>{ type }</Typography>
           </div>
           <div className={ classes.balances }>
-            { (asset ? (<Typography variant='h4' onClick={ () => { this.setAmount(asset.symbol, type, (asset ? floatToFixed(asset.balance, asset.decimals) : '0')) } } className={ classes.value } noWrap>{ 'Balance: '+ ( asset && asset.balance ? floatToFixed(asset.balance, 4) : '0.0000') } { asset ? asset.symbol : '' }</Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
+            { (asset ? (<Typography variant='h4' onClick={ () => { this.setAmount(asset.symbol, type, (asset ? floatToFixed(asset.balance, asset.decimals) : '0')) } } className={ classes.value } noWrap>{ 'Balance: '+ ( asset && asset.balance ? floatToFixed(asset.balance, 4) : '0.0000') } { asset ? asset.name : '' }</Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
           </div>
         </div>
         <div>
@@ -502,7 +537,7 @@ class Swap extends Component {
             disabled={ loading || type === "to" }
             className={ classes.actionInput }
             id={ type+"Amount" }
-            value={ amount }
+            value={ amount || 0 }
             error={ amountError }
             onChange={ this.onChange }
             placeholder="0.00"
@@ -530,6 +565,7 @@ class Swap extends Component {
         onChange={ this.onAssetSelectChange }
         SelectProps={{
           native: false,
+          classes: { icon: classes.icon },
         }}
         fullWidth
         disabled={ loading }
@@ -555,7 +591,7 @@ class Swap extends Component {
             />
           </div>
           <div className={ classes.assetSelectIconName }>
-            <Typography variant='h4'>{ option.symbol }</Typography>
+            <Typography variant='h4'>{ option.name }</Typography>
           </div>
         </React.Fragment>
       </MenuItem>

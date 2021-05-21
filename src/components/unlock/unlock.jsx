@@ -20,6 +20,8 @@ import {
   CONNECTION_CONNECTED
 } from '../../constants'
 
+import { colors } from '../../theme'
+
 import Store from "../../stores";
 const emitter = Store.emitter
 const store = Store.store
@@ -75,7 +77,7 @@ const styles = theme => ({
     position: 'absolute',
     right: '0px',
     top: '0px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   }
 });
 
@@ -150,7 +152,7 @@ class Unlock extends Component {
 
     return (
       <div className={ classes.root }>
-        <div className={ classes.closeIcon } onClick={ closeModal }><CloseIcon /></div>
+        <div className={ classes.closeIcon } onClick={ closeModal }><CloseIcon style={{fill: colors.white}} /></div>
         <div className={ classes.contentContainer }>
           <Web3ReactProvider getLibrary={getLibrary}>
             <MyComponent closeModal={ closeModal} />
@@ -260,7 +262,7 @@ function MyComponent(props) {
         } else if (name === 'Squarelink') {
           url = require('../../assets/connectors/squarelink.png')
         } else if (name === 'Trezor') {
-          url = require('../../assets/connectors/trezor.png')
+          url = require('../../assets/connectors/trezor.svg')
         } else if (name === 'Torus') {
           url = require('../../assets/connectors/torus.jpg')
         } else if (name === 'Authereum') {
@@ -273,16 +275,16 @@ function MyComponent(props) {
         }
 
         return (
-          <div key={name} style={{ padding: '12px 0px', display: 'flex', justifyContent: 'space-between'  }}>
+          <div key={name} style={{ padding: '12px 0px', display: 'flex', justifyContent: 'space-between', color: colors.white  }}>
             <Button style={ {
                 padding: '16px',
-                backgroundColor: 'white',
                 borderRadius: '1rem',
-                border: '1px solid #E1E1E1',
+                border: '1px solid ' + colors.white,
                 fontWeight: 500,
                 display: 'flex',
                 justifyContent: 'space-between',
-                minWidth: '250px'
+                minWidth: '250px',
+                color: colors.white
               } }
               variant='outlined'
               color='primary'
@@ -295,6 +297,7 @@ function MyComponent(props) {
                   color: 'rgb(1, 1, 1)',
                   fontWeight: 500,
                   fontSize: '1rem',
+                  color: colors.white
                 } }
                 variant={ 'h3'}>
                 { display }
@@ -320,10 +323,11 @@ function MyComponent(props) {
         <Button style={ {
             padding: '12px',
             backgroundColor: 'white',
-            borderRadius: '20px',
-            border: '1px solid #E1E1E1',
+            borderRadius: '1rem',
+            border: '1px solid #fff',
             fontWeight: 500,
-            minWidth: '250px'
+            minWidth: '250px',
+            minHeight: '53px'
           } }
           variant='outlined'
           color='primary'
@@ -331,7 +335,7 @@ function MyComponent(props) {
           <Typography style={ {
               marginLeft: '12px',
               fontWeight: '700',
-              color: '#DC6BE5'
+              color: colors.black
             } }
             variant={ 'h5'}
             color='primary'>

@@ -53,13 +53,13 @@ const styles = theme => ({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     margin: '40px 0px',
-    border: '1px solid '+colors.borderBlue,
-    width: '500px',
-    background: colors.white
+    border: '1px solid '+colors.white,
+    minWidth: '500px',
+    background: colors.bg
   },
   inputCardHeading: {
     width: '100%',
-    color: colors.darkGray,
+    color: colors.white,
     paddingLeft: '12px'
   },
   valContainer: {
@@ -104,23 +104,50 @@ const styles = theme => ({
   assetContainer: {
     minWidth: '120px'
   },
+  actionInput: {
+    "& .MuiOutlinedInput-root.Mui-disabled": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: 'rgba(255,255,255,.5)'
+      },
+      "&:hover": {
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: 'rgba(255,255,255,.5)'
+        },
+      }
+    },
+    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: colors.white
+    },
+    "& #pool-helper-text": {
+      color: 'rgba(255,255,255,.5)'
+    }
+  },
   actionButton: {
     '&:hover': {
-      backgroundColor: "#2F80ED",
+      backgroundColor: "transparent",
+      border: '1px solid ' + colors.white,
+      "& .MuiTypography-h4": {
+        color: colors.white
+      }
+    },
+    "&:disabled,&[disabled]": {
+      background: 'transparent',
+      borderColor: 'rgba(255,255,255,.5)',
+      "& .MuiTypography-h4": {
+        color: 'rgba(255,255,255,.5)'
+      }
     },
     marginTop: '24px',
-    padding: '12px',
-    backgroundColor: "#2F80ED",
-    borderRadius: '1rem',
-    border: '1px solid #E1E1E1',
+    padding: '7px',
+    backgroundColor: colors.white,
+    borderRadius: '100px',
+    border: '1px solid ' + colors.white,
     fontWeight: 500,
-    [theme.breakpoints.up('md')]: {
-      padding: '15px',
-    }
   },
   buttonText: {
     fontWeight: '700',
-    color: 'white',
+    color: colors.black,
+    transition: 'color .25s ease'
   },
   priceContainer: {
     display: 'flex',
@@ -153,7 +180,8 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '24px',
-    color: colors.darkGray
+    color: 'rgba(255,255,255,.5)',
+    transition: 'color .25s ease'
   },
   toggleHeadingActive: {
     flex: 1,
@@ -162,7 +190,8 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: '24px',
-    color: colors.text
+    color: colors.white,
+    transition: 'color .25s ease'
   },
   flexy: {
     width: '100%',
@@ -170,12 +199,17 @@ const styles = theme => ({
   },
   label: {
     flex: 1,
+    color: colors.white,
+    marginBottom: '16px',
     paddingLeft: '12px'
   },
   assetSelectRoot: {
   },
   space: {
     height: '24px'
+  },
+  value: {
+    color: colors.white
   },
   version1: {
     border: '1px solid '+colors.borderBlue,
@@ -406,6 +440,8 @@ class Liquidity extends Component {
       selectedPool
     } = this.state
 
+    const name = selectedPool ? selectedPool.name.toLowerCase().includes(':') ? selectedPool.name.split(':')[1] : selectedPool.name : ''
+
     return (
       <div className={ classes.valContainer }>
         <div className={ classes.flexy }>
@@ -413,7 +449,7 @@ class Liquidity extends Component {
             <Typography variant='h4'>pool</Typography>
           </div>
           <div className={ classes.balances }>
-            { (selectedPool ? (<Typography variant='h4' onClick={ () => { this.setAmount('pool', (selectedPool ? floatToFixed(selectedPool.balance, selectedPool.decimals) : '0')) } } className={ classes.value } noWrap>{ ''+ ( selectedPool && selectedPool.balance ? floatToFixed(selectedPool.balance, 4) : '0.0000') } { selectedPool ? selectedPool.id : '' }</Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
+            { (selectedPool ? (<Typography variant='h4' onClick={ () => { this.setAmount('pool', (selectedPool ? floatToFixed(selectedPool.balance, selectedPool.decimals) : '0')) } } className={ classes.value } noWrap>{ ''+ ( selectedPool && selectedPool.balance ? floatToFixed(selectedPool.balance, 4) : '0.0000') } { name }</Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
           </div>
         </div>
         <div>
@@ -422,7 +458,7 @@ class Liquidity extends Component {
             disabled={ loading }
             className={ classes.actionInput }
             id={ 'poolAmount' }
-            value={ poolAmount }
+            value={ poolAmount || 0 }
             error={ poolAmountError }
             onChange={ this.onChange }
             placeholder="0.00"
@@ -437,8 +473,9 @@ class Liquidity extends Component {
   }
 
   renderPoolSelectAsset = (id) => {
-    const { loading, pools } = this.state
+    const { loading, pools, selectedPool } = this.state
     const { classes } = this.props
+    const name = selectedPool.name.toLowerCase().includes(':') ? selectedPool.name.split(':')[1] : selectedPool.name
 
     return (
       <TextField
@@ -452,7 +489,7 @@ class Liquidity extends Component {
           renderValue: (option) => {
             return (
               <div className={ classes.assetSelectIconName }>
-                <Typography variant='h4'>{ option }</Typography>
+                <Typography variant='h4'>{ name }</Typography>
               </div>
             )
           }
@@ -470,10 +507,12 @@ class Liquidity extends Component {
   renderPoolSelectAssetOptions = (option) => {
     const { classes } = this.props
 
+    const name = option.name.toLowerCase().includes(':') ? option.name.split(':')[1] : option.name
+
     return (
       <MenuItem key={option.id} value={option.id} className={ classes.poolSelectOption }>
         <div>
-          <Typography variant='h4'>{ option.name }</Typography>
+          <Typography variant='h4'>{ name }</Typography>
           { option.balance > 0 ? <Typography variant='h5' className={ classes.gray }>Bal: { option.balance ? parseFloat(option.balance).toFixed(4) : '' }</Typography> : '' }
         </div>
         <Typography variant='h5' className={`${ option.version === 1 ? classes.version1 : classes.version2 }`}>version { option.version }</Typography>
@@ -482,8 +521,10 @@ class Liquidity extends Component {
   }
 
   renderPoolSelect = (id) => {
-    const { loading, pools, pool } = this.state
+    const { loading, pools, pool, selectedPool } = this.state
     const { classes } = this.props
+
+    const name = selectedPool ? selectedPool.name.toLowerCase().includes(':') ? selectedPool.name.split(':')[1] : selectedPool.name : ''
 
     return (
       <div className={ classes.valContainer }>
@@ -499,14 +540,14 @@ class Liquidity extends Component {
             id={ 'pool' }
             name={ 'pool' }
             select
-            value={ pool }
+            value={ name }
             onChange={ this.onPoolSelectChange }
             SelectProps={{
               native: false,
-              renderValue: (option) => {
+              renderValue: (name) => {
                 return (
                   <div className={ classes.assetSelectIconName }>
-                    <Typography variant='h4'>{ option }</Typography>
+                    <Typography variant='h4'>{ name }</Typography>
                   </div>
                 )
               }
@@ -527,6 +568,7 @@ class Liquidity extends Component {
 
   renderPoolOption = (option) => {
     const { classes } = this.props
+    const name = option.name.toLowerCase().includes(':') ? option.name.split(':')[1] : option.name
 
     return (
       <MenuItem key={option.id} value={option.id} className={ classes.assetSelectMenu }>
@@ -540,7 +582,7 @@ class Liquidity extends Component {
               />
             </div>
             <div className={ classes.assetSelectIconName }>
-              <Typography variant='h4'>{ option.name }</Typography>
+              <Typography variant='h4'>{ name }</Typography>
               <Typography variant='h5' className={`${ option.version === 1 ? classes.version1 : classes.version2 }`}>version { option.version }</Typography>
             </div>
           </div>
@@ -595,6 +637,7 @@ class Liquidity extends Component {
       slippagePcent,
       selectedPool
     } = this.state
+
     let amount = depositAmount;
     if (!depositAmount) amount = 0.00
     if (selectedPool && !selectedPool.isPoolSeeded) return null;
@@ -689,7 +732,7 @@ class Liquidity extends Component {
             </Typography>
           </div>
           <div className={ classes.balances }>
-            { (asset ? (<Typography variant='h4' onClick={ () => { if(DorW === 'withdraw') { return false; } this.setAmount(type, (asset ? floatToFixed(asset.balance, asset.decimals) : '0')) } } className={ classes.value } noWrap>{ ''+ ( asset && asset.balance ? floatToFixed(asset.balance, 4) : '0.0000') } { asset ? asset.symbol : '' }</Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
+            { (asset ? (<Typography variant='h4' onClick={ () => { if(DorW === 'withdraw') { return false; } this.setAmount(type, (asset ? floatToFixed(asset.balance, asset.decimals) : '0')) } } className={ classes.value } noWrap>{ ''+ ( asset && asset.balance ? floatToFixed(asset.balance, 4) : '0.0000') } </Typography>) : <Typography variant='h4' className={ classes.value } noWrap>Balance: -</Typography>) }
           </div>
         </div>
         <div>
@@ -698,7 +741,7 @@ class Liquidity extends Component {
             disabled={ loading || DorW === 'withdraw' }
             className={ classes.actionInput }
             id={ type+"Amount" }
-            value={ amount }
+            value={ amount || 0 }
             error={ amountError }
             onChange={ this.onChange }
             placeholder="0.00"

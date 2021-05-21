@@ -29,8 +29,6 @@ const styles = theme => ({
     }
   },
   headerV2: {
-    background: colors.white,
-    border: '1px solid '+colors.borderBlue,
     borderTop: 'none',
     width: '100%',
     borderRadius: '0px 0px 50px 50px',
@@ -53,18 +51,22 @@ const styles = theme => ({
     display: 'flex'
   },
   link: {
+    color: 'rgba(255, 255, 255, .5)',
     padding: '12px 0px',
     margin: '0px 12px',
     cursor: 'pointer',
+    borderBottom: "3px solid transparent",
+    transition: 'color .25s ease, border-color .25s ease',
     '&:hover': {
-      paddingBottom: '9px',
-      borderBottom: "3px solid "+ opiumColor,
+      color: colors.white,
+      borderColor: opiumColor,
     },
   },
   title: {
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   linkActive: {
+    color: colors.white,
     padding: '12px 0px',
     margin: '0px 12px',
     cursor: 'pointer',
@@ -81,15 +83,18 @@ const styles = theme => ({
     }
   },
   walletAddress: {
+    color: colors.white,
     padding: '12px',
-    border: '2px solid rgb(174, 174, 174)',
+    border: '1px solid ' + colors.white,
     borderRadius: '50px',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
+    backgroundColor: 'transparent',
+    transition: 'color .25s ease, background-color .25s ease',
     '&:hover': {
-      border: "2px solid "+ opiumColor,
-      background: 'rgba(47, 128, 237, 0.1)'
+      backgroundColor: colors.white,
+      color: colors.black
     },
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
@@ -101,7 +106,7 @@ const styles = theme => ({
   },
   walletTitle: {
     flex: 1,
-    color: colors.darkGray
+    color: colors.white
   },
   connectedDot: {
     background: colors.compoundGreen,
@@ -114,6 +119,7 @@ const styles = theme => ({
   },
   name: {
     paddingLeft: '24px',
+    color: colors.white,
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     }
@@ -175,7 +181,14 @@ class Header extends Component {
               width={ '200px' }
               onClick={ () => { this.nav('') } }
             />
-            <Typography variant={ 'h3'} className={ classes.name } onClick={ () => { this.nav('') } }>Curve Swaps</Typography>
+            <Typography variant={ 'h3'} className={ classes.name }>+</Typography>
+            <img
+              alt=""
+              src={ require('../../assets/logo_optimized.svg') }
+              height={ '40px' }
+              width={ '200px' }
+              onClick={ () => { this.nav('') } }
+            />
           </div>
           <div className={ classes.links }>
             { this.renderLink('swap') }

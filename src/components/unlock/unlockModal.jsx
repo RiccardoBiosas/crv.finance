@@ -5,6 +5,8 @@ import {
   Slide
 } from '@material-ui/core';
 
+import { colors } from '../../theme'
+
 import Unlock from './unlock.jsx';
 
 function Transition(props) {
@@ -18,7 +20,16 @@ class UnlockModal extends Component {
     const fullScreen = window.innerWidth < 450;
 
     return (
-      <Dialog open={ modalOpen } onClose={ closeModal } fullWidth={ true } maxWidth={ 'sm' } TransitionComponent={ Transition } fullScreen={ fullScreen }>
+      <Dialog open={ modalOpen } onClose={ closeModal } fullWidth={ true } maxWidth={ 'sm' } TransitionComponent={ Transition } fullScreen={ fullScreen }
+        PaperProps={{
+          style: {
+            backgroundColor: colors.bg,
+            boxShadow: 'none',
+            border: '1px solid ' + colors.white,
+            borderRadius: '10px'
+          },
+        }}
+      >
         <DialogContent>
           <Unlock closeModal={ closeModal } />
         </DialogContent>
